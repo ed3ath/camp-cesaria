@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Kiosk</mat-label>
+      <mat-select [(value)]="selected" (selectionChange)="onChange()">
+        <mat-option *ngFor="let kiosk of kiosks" [value]="kiosk.id">
+          {{ kiosk.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="spinner-wrapper">
+      <mat-spinner *ngIf="showLoader"></mat-spinner>
+    </div>
+    <zxing-scanner
+      *ngIf="enableScanner"
+      (scanSuccess)="handleQrCodeResult($event)"
+      [enable]="enableScanner"
+    ></zxing-scanner>
+  </mat-card-content>
+</mat-card>

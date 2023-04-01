@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-content>
+    <div class="spinner-wrapper">
+      <mat-spinner *ngIf="showLoader"></mat-spinner>
+    </div>
+    <zxing-scanner
+      *ngIf="enableScanner"
+      (scanSuccess)="handleQrCodeResult($event)"
+      [enable]="enableScanner"
+    ></zxing-scanner>
+  </mat-card-content>
+</mat-card>

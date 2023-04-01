@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+.mat-elevation-z8 {
+  overflow-x: auto;
+}
+.mat-column-id {
+  width: 32px;
+  padding-right: 24px;
+  text-align: center;
+}
+.mat-column-adults {
+  width: 300px;
+  padding-right: 24px;
+}
+.mat-column-kids {
+  width: 300px;
+  padding-right: 24px;
+}
+.mat-column-email {
+  width: 300px;
+  padding-right: 24px;
+}
+.mat-column-mobile {
+  width: 300px;
+  padding-right: 24px;
+}
+.mat-column-paid {
+  width: 300px;
+  padding-right: 24px;
+}
+.mat-column-checkedIn {
+  width: 300px;
+  padding-right: 24px;
+}
+
