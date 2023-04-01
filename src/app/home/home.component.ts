@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 import { DBService } from 'src/app/services/db.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -95,7 +96,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
-
   onFileSelected() {
     const e: any = document.querySelector('#file');
     if (e.files.length > 0) {
@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
       this.fileName = this.file.name;
       this.enableBtn = true
     } else {
-      this.enableBtn = true
+      this.enableBtn = false
     }
   }
 
@@ -130,6 +130,48 @@ export class HomeComponent implements OnInit {
 
   async markPaid(id: number) {
     await this.dbService.upsert('registrations', { ...this.registrations.find((i: IRegistration) => i.id === id), paid: true })
+  }
+
+  add() {
+    Swal.fire({
+      title: 'Add walk-in',
+      html:
+        `<label for="adults">Name of the Adult(s)</label><input id="adults" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)">
+        <br><br>
+        <label for="kids">Name of the Kid(s)</label><input id="kids" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)">
+        <br>
+        <input id="email" type="email" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Email">
+        <br>
+        <input id="mobile" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Mobile #">`,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          (<HTMLInputElement>document.getElementById('adults')).value,
+          (<HTMLInputElement>document.getElementById('kids')).value,
+          (<HTMLInputElement>document.getElementById('email')).value,
+          (<HTMLInputElement>document.getElementById('mobile')).value
+        ]
+      }
+    }).then(async res => {
+      if (res.value && res.isConfirmed) {
+        if (res.value[0] && res.value[1] && res.value[2] && res.value[3]) {
+          this.dbService.upsert('registrations', {
+            adults: res.value[0].split(',').map(i => i.trim()),
+            kids: res.value[1].split(',').map(i => i.trim()),
+            email: res.value[2],
+            mobile: res.value[3],
+            paid: true,
+            checkedIn: true
+          }).then(() => {
+            Swal.fire(
+              '',
+              'Walk-in registered successfully',
+              'success'
+            )
+          })
+        }
+      }
+    })
   }
 
   import() {
@@ -162,14 +204,25 @@ export class HomeComponent implements OnInit {
               }
             })
             if (!await this.dbService.checkIfExists(tmpRow.email)) {
-              await this.dbService.upsert('registrations', tmpRow)
+              await this.dbService.upsert('registrations', tmpRow);
             }
           }));
+          Swal.fire(
+            '',
+            'Data imported successfully',
+            'success'
+          );
         }
+        this.enableBtn = false;
       }
       fileReader.readAsText(this.file);
     } else {
-      alert('Invalid file type.');
+      Swal.fire(
+        '',
+        'Invalid file type',
+        'error'
+      );
+      this.enableBtn = false;
     }
   }
 

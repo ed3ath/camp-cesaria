@@ -1,7 +1,7 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <mat-tab label="Registrations">
     <mat-card>
-      <mat-card-actions>
+      <mat-card-actions [align]="'end'">
         <button type="button" mat-raised-button (click)="fileInput.click()">
           Choose File
         </button>
@@ -12,7 +12,8 @@
           type="file"
           id="file"
         />
-        <button mat-button color="primary" (click)="import()" [disabled]="!enableBtn">Import</button>
+        <button mat-button mat-raised-button color="primary" (click)="import()" [disabled]="!enableBtn">Import</button>
+        <button mat-button mat-raised-button color="accent" (click)="add()">Add</button>
       </mat-card-actions>
       <mat-card-content>
         <div class="mat-elevation-z8">
