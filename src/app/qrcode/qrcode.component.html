@@ -1,10 +1,10 @@
 <h1 mat-dialog-title>QR Code</h1>
 <div mat-dialog-content>
-  <mat-card *ngFor="let name of qrData.kids; let kidIndex = index">
+  <mat-card *ngFor="let name of qrData.kids; let kidIndex = index" [id]="'card'+(kidIndex+1)">
     <mat-card-title>{{ name }}</mat-card-title>
     <mat-card-content>
       <qrcode
-        (qrCodeURL)="onChangeURL($event, name)"
+        (qrCodeURL)="onChangeURL($event, name, kidIndex)"
         [qrdata]="formatName(qrData.id, kidIndex, name)"
         [width]="400"
         cssClass="center"

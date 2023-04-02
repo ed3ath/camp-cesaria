@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit, SecurityContext } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import html2canvas from 'html2canvas';
 
 interface URL {
   name: string;
   url: SafeUrl;
+  kidIndex: number
 }
 
 @Component({
@@ -31,24 +33,27 @@ export class QrcodeComponent implements OnInit {
     })
   }
 
-  onChangeURL(url: SafeUrl, name: string) {
+  onChangeURL(url: SafeUrl, name: string, kidIndex: number) {
     this.urls.push({
       name,
-      url
+      url,
+      kidIndex
     } as URL)
   }
 
-  downloadQRs() {
-    this.urls.forEach((data: URL) => {
+  async downloadQRs() {
+    await Promise.all(this.urls.map(async (data: URL) => {
+      const img: any = document.querySelector(`#card${data.kidIndex + 1}`);
+      const canvas = await html2canvas(img)
+      const textToSaveAsURL = canvas.toDataURL("image/png");
       const downloadLink = document.createElement('a');
       downloadLink.download = `${data.name}.png`;
       downloadLink.innerHTML = 'Download File';
-      downloadLink.href = `${this.sanitizer.sanitize(SecurityContext.URL, data.url)}`;
+      downloadLink.href = textToSaveAsURL;
       downloadLink.style.display = 'none';
       document.body.appendChild(downloadLink);
       downloadLink.click();
-    })
-
+    }))
   }
 
 }
