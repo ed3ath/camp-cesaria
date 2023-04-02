@@ -136,13 +136,13 @@ export class HomeComponent implements OnInit {
     Swal.fire({
       title: 'Add walk-in',
       html:
-        `<label for="adults">Name of the Adult(s)</label><input id="adults" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)">
+        `<label for="adults">Name of the Adult(s)</label><input id="adults" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)" autocomplete="off">
         <br><br>
-        <label for="kids">Name of the Kid(s)</label><input id="kids" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)">
+        <label for="kids">Name of the Kid(s)</label><input id="kids" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Separated by comma (ex. Juan,Juana)" autocomplete="off">
         <br>
-        <input id="email" type="email" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Email">
+        <input id="email" type="email" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Email" autocomplete="off">
         <br>
-        <input id="mobile" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Mobile #">`,
+        <input id="mobile" type="text" class="swal2-input" style="width: 80% !important; font-size: 1rem !important;" placeholder="Mobile #" autocomplete="off">`,
       focusConfirm: false,
       preConfirm: () => {
         return [
