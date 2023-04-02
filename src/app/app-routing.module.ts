@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'claim', component: ClaimComponent },
   {
     path: '',
-    redirectTo: '/main',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
 ];

@@ -6,10 +6,15 @@
       <qrcode
         (qrCodeURL)="onChangeURL($event, name)"
         [qrdata]="formatName(qrData.id, kidIndex, name)"
-        [width]="256"
+        [width]="400"
         cssClass="center"
         elementType="canvas"
-        [errorCorrectionLevel]="'M'"
+        [errorCorrectionLevel]="'Q'"
+        imageSrc="./assets/logo.png"
+        [imageHeight]="100"
+        [imageWidth]="100"
+        [margin]="0"
+        [scale]="1"
         [title]="name"
       ></qrcode>
     </mat-card-content>
