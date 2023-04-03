@@ -58,7 +58,8 @@ export class HomeComponent implements OnInit {
     "paid",
     "checkedIn",
     "markPaid",
-    "genQR"
+    "genQR",
+    "delRow"
   ];
 
   logColumns = [
@@ -77,22 +78,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loadRegistrations()
-
-    this.dbService.subscribe('*', '*').subscribe(() => {
-      this.loadRegistrations()
-    });
   }
 
   loadRegistrations() {
     this.dbService.getAll('registrations').then(res => {
-      this.registrations = res.data?.sort((a: any, b: any) => b.id - a.id)
+      this.registrations = res?.sort((a: any, b: any) => b.id - a.id)
       this.loadLogs()
     })
   }
 
   loadLogs() {
     this.dbService.getAll('logs').then(res => {
-      this.logs = res.data?.sort((a: any, b: any) => b.id - a.id)
+      this.logs = res?.sort((a: any, b: any) => b.id - a.id)
     })
   }
 
@@ -128,8 +125,10 @@ export class HomeComponent implements OnInit {
     return this.kiosks[kioskIndex].name;
   }
 
-  async markPaid(id: number) {
-    await this.dbService.upsert('registrations', { ...this.registrations.find((i: IRegistration) => i.id === id), paid: true })
+  markPaid(id: number) {
+    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: true }).then(() => {
+      this.loadRegistrations()
+    })
   }
 
   add() {
@@ -155,7 +154,8 @@ export class HomeComponent implements OnInit {
     }).then(async res => {
       if (res.value && res.isConfirmed) {
         if (res.value[0] && res.value[1] && res.value[2] && res.value[3]) {
-          this.dbService.upsert('registrations', {
+          this.dbService.insert('registrations', {
+            id: await this.dbService.getNextId('registrations'),
             adults: res.value[0].split(',').map(i => i.trim()),
             kids: res.value[1].split(',').map(i => i.trim()),
             email: res.value[2],
@@ -168,6 +168,7 @@ export class HomeComponent implements OnInit {
               'Walk-in registered successfully',
               'success'
             )
+            this.loadRegistrations()
           })
         }
       }
@@ -180,8 +181,9 @@ export class HomeComponent implements OnInit {
       fileReader.onload = async () => {
         const res = fileReader.result
         if (res) {
-          await Promise.all(this.csvJSON(res.toString()).map(async (row, i) => {
+          for (let row of this.csvJSON(res.toString())) {
             let tmpRow: IRegistration = {
+              id: await this.dbService.getNextId('registrations'),
               adults: [] as string[],
               kids: [] as string[],
               email: '',
@@ -204,14 +206,17 @@ export class HomeComponent implements OnInit {
               }
             })
             if (!await this.dbService.checkIfExists(tmpRow.email)) {
-              await this.dbService.upsert('registrations', tmpRow);
+              await this.dbService.insert('registrations', tmpRow)
             }
-          }));
+          }
           Swal.fire(
             '',
             'Data imported successfully',
             'success'
-          );
+          )
+          this.loadRegistrations()
+          const e: any = document.querySelector('#file');
+          e.value = ""
         }
         this.enableBtn = false;
       }
@@ -230,6 +235,17 @@ export class HomeComponent implements OnInit {
     this.dialog.open(QrcodeComponent, {
       data: this.registrations.find((i: any) => i.id === id)
     });
+  }
+
+  delRow(id: number) {
+    this.dbService.delete('registrations', id).then(() => {
+      Swal.fire(
+        '',
+        'Row deleted successfully',
+        'success'
+      )
+      this.loadRegistrations()
+    })
   }
 
   csvJSON(csv: any) {

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
-  createClient,
-  SupabaseClient,
-} from '@supabase/supabase-js'
+  AceBaseClient
+} from 'acebase-client'
 import { environment } from 'src/environments/environment'
 
 import { IRegistration, ILog } from 'src/app/interfaces/db.interface'
@@ -13,44 +12,61 @@ import { Observable } from 'rxjs'
 })
 
 export class DBService {
-  private supaBase: SupabaseClient
+  private aceBase: AceBaseClient
 
   constructor() {
-    this.supaBase = createClient(environment.supabaseUrl, environment.supabaseKey)
+    this.aceBase = new AceBaseClient({ host: 'localhost', port: 5757, dbname: 'camp_cesaria', https: false })
+    this.aceBase.ready(() => {
+      console.log('Connected to DB server');
+    });
+  }
+
+  getQuery(table: string) {
+    return this.aceBase.query(table)
+  }
+
+  getRef(table: string) {
+    return this.aceBase.ref(table)
+  }
+
+  async getNextId(table: string) {
+    return (await this.getQuery(table).count()) + 1
   }
 
   async getAll(table: string) {
-    return await this.supaBase.from(table).select()
+    return (await this.getQuery(table).get()).getValues()
   }
 
-  async upsert(table: string, data: IRegistration | ILog) {
-    return await this.supaBase.from(table).upsert(data)
+  async insert(table: string, data: IRegistration | ILog) {
+    const rows = (await this.getRef(table).get()).val() || []
+    rows.push(data)
+    return await this.getRef(table).set(rows)
+  }
+
+  async update(table: string, id: number, data: IRegistration | ILog) {
+    const rows = (await this.getRef(table).get()).val() || []
+    rows[rows.findIndex((i: any) => i.id === id)] = data
+    return await this.getRef(table).set(rows)
+  }
+
+  async delete(table: string, id: number) {
+    const rows = (await this.getRef(table).get()).val() || []
+    rows.splice(rows.findIndex((i: any) => i.id === id), 1)
+    return await this.getRef(table).set(rows)
   }
 
   async checkIfClaimed(id: number, kidIndex: number, kioskIndex: number) {
-    const res = await this.supaBase.from('logs').select().eq('regNo', id).eq('kidIndex', kidIndex).eq('kioskIndex', kioskIndex)
-    return res.data && res.data.length > 0
+    const rows = (await this.getRef('logs').get()).val() || []
+    return rows.filter((i: any) => i.id === id && i.kidIndex === kidIndex && i.kioskIndex === kioskIndex).length > 0
   }
 
   async checkIfExists(email: string) {
-    const res = await this.supaBase.from('registrations').select().eq('email', email)
-    return res.data && res.data.length > 0
+    const rows = (await this.getRef('registrations').get()).val() || []
+    return rows.filter((i: any) => i.email === email).length > 0
   }
 
-  async findById(table: string, id: number) {
-    return await this.supaBase.from(table).select().eq('id', id)
-  }
-
-  subscribe(table: string, event: any) {
-    return new Observable(_ => {
-      this.supaBase.channel(table)
-        .on(
-          'postgres_changes',
-          { event, schema: 'public' },
-          (payload) => {
-            _.next(payload.new)
-          }
-        ).subscribe()
-    })
+  async getById(table: string, id: number) {
+    const rows = (await this.getRef(table).get()).val() || []
+    return rows.find((i: any) => i.id === id)
   }
 }

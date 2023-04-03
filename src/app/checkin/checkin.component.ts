@@ -25,9 +25,9 @@ export class CheckinComponent implements OnInit {
       this.checking = true
       this.enableScanner = false
       const regInfo = JSON.parse(result)
-      this.dbService.findById('registrations', regInfo.id).then((res: any) => {
+      this.dbService.getById('registrations', regInfo.id).then((res: any) => {
         if (!res.data[0].checkedIn) {
-          this.dbService.upsert('registrations', { ...res.data[0], checkedIn: true }).then((res2: any) => {
+          this.dbService.update('registrations', regInfo.id, { ...res.data[0], checkedIn: true }).then((res2: any) => {
             this.showLoader = false
             Swal.fire(
               '',

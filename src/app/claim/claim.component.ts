@@ -45,19 +45,21 @@ export class ClaimComponent implements OnInit {
       this.enableScanner = false
       this.showLoader = true
       const regInfo = JSON.parse(result)
-      this.dbService.findById('registrations', regInfo.id).then((res: any) => {
+      this.dbService.getById('registrations', regInfo.id).then((res: any) => {
         if (res.data.length > 0) {
-          this.dbService.checkIfClaimed(regInfo.id, regInfo.kidIndex, this.selectedIndex).then((claimed) => {
+          this.dbService.checkIfClaimed(regInfo.id, regInfo.kidIndex, this.selectedIndex).then(async (claimed) => {
             if (!claimed) {
-              this.dbService.upsert('logs', { regNo: regInfo.id, kidIndex: regInfo.kidIndex, kioskIndex: this.selectedIndex } as ILog).then((res2: any) => {
-                this.showLoader = false
-                Swal.fire(
-                  '',
-                  res2.error ? res2.error : 'Claim was successful',
-                  res2.error ? 'error' : 'success'
-                ).then(() => {
-                  this.enableScanner = true
-                  this.checking = false
+              this.dbService.getNextId('logs').then(nextId => {
+                this.dbService.insert('logs', { id: nextId, regNo: regInfo.id, kidIndex: regInfo.kidIndex, kioskIndex: this.selectedIndex } as ILog).then((res2: any) => {
+                  this.showLoader = false
+                  Swal.fire(
+                    '',
+                    res2.error ? res2.error : 'Claim was successful',
+                    res2.error ? 'error' : 'success'
+                  ).then(() => {
+                    this.enableScanner = true
+                    this.checking = false
+                  })
                 })
               })
             } else {
