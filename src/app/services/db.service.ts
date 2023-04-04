@@ -15,7 +15,9 @@ export class DBService {
   private aceBase: AceBaseClient
 
   constructor() {
-    this.aceBase = new AceBaseClient({ host: 'localhost', port: 5757, dbname: 'camp_cesaria', https: false })
+    const host = process.env['DB_HOST'] || 'localhost';
+    const port = process.env['DB_PORT'] || 5757
+    this.aceBase = new AceBaseClient({ host, port: +port, dbname: 'camp_cesaria', https: false })
     this.aceBase.ready(() => {
       console.log('Connected to DB server');
     });
