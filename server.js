@@ -6,7 +6,6 @@ function requireHTTPS (req, res, next) {
   next()
 }
 
-const { AceBaseServer } = require('acebase-server')
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
@@ -19,10 +18,6 @@ app.get('/*', (req, res) =>
   res.sendFile('index.html', { root: 'dist/cesaria/' })
 )
 
-const server = new AceBaseServer('camp_cesaria', { host: 'localhost', port: 5757, authentication: { enabled: false } })
-server.ready(() => {
-  console.log('DB Server running on port 5757')
-  app.listen(port, () => {
-    console.log('listening at port', port)
-  })
+app.listen(port, () => {
+  console.log('listening at port', port)
 })
