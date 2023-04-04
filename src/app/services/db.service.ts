@@ -5,7 +5,6 @@ import {
 import { environment } from 'src/environments/environment'
 
 import { IRegistration, ILog } from 'src/app/interfaces/db.interface'
-import { Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,7 @@ export class DBService {
   constructor() {
     const host = process.env['DB_HOST'] || 'localhost';
     const port = process.env['DB_PORT'] || 5757
-    this.aceBase = new AceBaseClient({ host, port: +port, dbname: 'camp_cesaria', https: false })
+    this.aceBase = new AceBaseClient({ host, port: +port, dbname: 'camp_cesaria', https: environment.production ? true : false })
     this.aceBase.ready(() => {
       console.log('Connected to DB server');
     });
