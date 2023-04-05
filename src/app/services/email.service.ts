@@ -11,7 +11,7 @@ export class EmailService {
     this.emailTemplate = `<div class="align-left">
       <p>Dear Guest/s,</p>
       <p>Thank you for registering your {{var1}}, {{names}}, in Camp Cesaria's First Easter Egg Hunt Activity this coming Sunday, April 9, 2023.</p>
-      <p>Please download and save your {{var2}} QR {{qr}} to your phone. These should be presented at the entrance and food kiosks. </p>
+      <p>Please download and save your {{var2}} QR {{qr}} to your phone, which is found at the bottom of this email. These should be presented at the entrance and food kiosks.</p>
       <p>Please note:</p>
       <p>
       <ul>
@@ -31,11 +31,11 @@ export class EmailService {
   }
 
   getTemplate(names: string[]) {
-    return this.emailTemplate.replace('{{var1}}', names.length > 1 ? 'kids' : 'kid').replace('{{names}}', names.join(', ')).replace('{{var2}}', names.length > 1 ? 'kids\'' : 'kid\'s').replace('{{qr}}', names.length > 1 ? 'codes' : 'code')
+    return this.emailTemplate.replace('{{var1}}', names.length > 1 ? 'children' : 'child').replace('{{names}}', names.join(', ')).replace('{{var2}}', names.length > 1 ? 'children\'' : 'child\'s').replace('{{qr}}', names.length > 1 ? 'codes' : 'code')
   }
 
   getMailto(names: string[], email: string) {
-    const body = this.emailTemplate.replace('{{var1}}', names.length > 1 ? 'kids' : 'kid').replace('{{names}}', names.join(', ')).replace('{{var2}}', names.length > 1 ? 'kids\'' : 'kid\'s').replace('{{qr}}', names.length > 1 ? 'codes' : 'code')
+    const body = this.emailTemplate.replace('{{var1}}', names.length > 1 ? 'kids' : 'kid').replace('{{names}}', names.join(', ')).replace('{{var2}}', names.length > 1 ? 'children\'s' : 'child\'s').replace('{{qr}}', names.length > 1 ? 'codes' : 'code')
     return `mailto:${email}?subject=${this.subject}&body=${body}`
   }
 }
