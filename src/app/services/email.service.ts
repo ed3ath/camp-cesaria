@@ -20,7 +20,8 @@ export class EmailService {
           more games and prizes.</li>
         <li>Every adult has to pay P100 for the entrance, inclusive of pool access only.</li>
         <li>Please bring a floater or life vest for kids if you have any.</li>
-        <li>Adults are NOT allowed to pick up easter eggs during the easter egg hunting.</li>
+        <li>Adults are <b>NOT</b> allowed to pick up easter eggs during the easter egg hunting.</li>
+        <li><b>For late payments, please prepare a screenshot of your GCash transaction receipt.</b></li>
       </ul>
       </p>
       <p>If you have further questions, don't hesitate to contact us through our facebook page: <a
