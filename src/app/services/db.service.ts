@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment'
 
 import { IRegistration, ILog } from 'src/app/interfaces/db.interface'
 
+import { EventService } from './event.service'
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,12 +15,12 @@ import { IRegistration, ILog } from 'src/app/interfaces/db.interface'
 export class DBService {
   private aceBase: AceBaseClient
 
-  constructor() {
+  constructor(private eventService: EventService) {
     const host = process.env['DB_HOST'] || 'localhost';
     const port = process.env['DB_PORT'] || 5757
     this.aceBase = new AceBaseClient({ host, port: +port, dbname: 'camp_cesaria', https: environment.production ? true : false })
     this.aceBase.ready(() => {
-      console.log('Connected to DB server');
+      this.eventService.publish('db_connected', true)
     });
   }
 

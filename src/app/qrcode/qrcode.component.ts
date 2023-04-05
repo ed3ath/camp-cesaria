@@ -53,7 +53,7 @@ export class QrcodeComponent implements OnInit {
     }));
     Swal.fire({
       title: 'Email Template',
-      html: `<p>${this.qrData.email}</p><hr>${this.emailService.getTemplate(this.qrData.kids)}<hr>${qrImages.join('<br>')}`,
+      html: `<p class="align-left">${this.qrData.email}</p><hr>${this.emailService.getTemplate(this.qrData.kids)}<hr>${qrImages.join('<br>')}`,
       focusConfirm: false
     });
   }

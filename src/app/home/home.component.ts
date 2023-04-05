@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
 import { DBService } from 'src/app/services/db.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { EventService } from 'src/app/services/event.service';
 
 import { IRegistration } from 'src/app/interfaces/db.interface';
 
@@ -24,7 +25,8 @@ const EMAIL_ICON = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://
 export class HomeComponent implements OnInit {
   file!: File;
   fileName: string = '';
-  enableBtn = false
+  enableBtn = false;
+  observer: any;
 
   kiosks = [
     {
@@ -73,6 +75,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public dbService: DBService,
+    private eventService: EventService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     public dialog: MatDialog
@@ -84,13 +87,19 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadRegistrations()
+    this.eventService.subscribe('db_connected', () => {
+      this.dbService.getRef('registrations').observe().subscribe(() => {
+        this.loadRegistrations()
+      })
+      this.dbService.getRef('logs').observe().subscribe(() => {
+        this.loadLogs()
+      })
+    })
   }
 
   loadRegistrations() {
     this.dbService.getAll('registrations').then(res => {
       this.registrations = res?.sort((a: any, b: any) => b.id - a.id)
-      this.loadLogs()
     })
   }
 
@@ -133,15 +142,11 @@ export class HomeComponent implements OnInit {
   }
 
   markPaid(id: number) {
-    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: true }).then(() => {
-      this.loadRegistrations()
-    })
+    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: true })
   }
 
   markUnpaid(id: number) {
-    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: false }).then(() => {
-      this.loadRegistrations()
-    })
+    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: false })
   }
 
   add() {
@@ -181,7 +186,6 @@ export class HomeComponent implements OnInit {
               'Walk-in registered successfully',
               'success'
             )
-            this.loadRegistrations()
           })
         }
       }
@@ -227,7 +231,6 @@ export class HomeComponent implements OnInit {
             'Data imported successfully',
             'success'
           )
-          this.loadRegistrations()
           const e: any = document.querySelector('#file');
           e.value = ""
         }
@@ -251,15 +254,13 @@ export class HomeComponent implements OnInit {
   }
 
   delRow(id: number) {
-    this.dbService.getById('registrations', id).then(console.log)
-    /*this.dbService.delete('registrations', id).then(() => {
+    this.dbService.delete('registrations', id).then(() => {
       Swal.fire(
         '',
         'Row deleted successfully',
         'success'
       )
-      this.loadRegistrations()
-    })*/
+    })
   }
 
   csvJSON(csv: any) {

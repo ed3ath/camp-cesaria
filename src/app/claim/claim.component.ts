@@ -50,7 +50,7 @@ export class ClaimComponent implements OnInit {
           this.dbService.checkIfClaimed(regInfo.id, regInfo.kidIndex, this.selectedIndex).then(async (claimed) => {
             if (!claimed) {
               this.dbService.getNextId('logs').then(nextId => {
-                this.dbService.insert('logs', { id: nextId, regNo: regInfo.id, kidIndex: regInfo.kidIndex, kioskIndex: this.selectedIndex } as ILog).then((res2: any) => {
+                this.dbService.insert('logs', { id: nextId, regNo: regInfo.id, kidIndex: regInfo.kidIndex, kioskIndex: this.selectedIndex, timestamp: Math.trunc(new Date().getTime() / 1000) } as ILog).then((res2: any) => {
                   this.showLoader = false
                   Swal.fire(
                     '',
