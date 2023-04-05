@@ -11,17 +11,18 @@ export class EmailService {
     this.emailTemplate = `<div class="align-left">
       <p>Dear Guest/s,</p>
       <p>Thank you for registering your {{var1}}, {{names}}, in Camp Cesaria's First Easter Egg Hunt Activity this coming Sunday, April 9, 2023.</p>
-      <p>Please see the attachment for your {{var2}} QR {{qr}} that should be presented at the entrance and food kiosks.</p>
+      <p>Please download and save your {{var2}} QR {{qr}} to your phone. These should be presented at the entrance and food kiosks. </p>
       <p>Please note:</p>
       <p>
       <ul>
+        <li>Check-in and walk-in registration will start at 1 p.m.</li>
         <li>P500 registration fee is inclusive of entrance to Camp Cesaria, Taters Popcorn, Egg Sandwich by K-Egg Kidapawan,
           pool access, entrance to the rabbit cove, face painting, bubble show, balloon twisting, easter egg hunting, and
           more games and prizes.</li>
         <li>Every adult has to pay P100 for the entrance, inclusive of pool access only.</li>
         <li>Please bring a floater or life vest for kids if you have any.</li>
         <li>Adults are <b>NOT</b> allowed to pick up easter eggs during the easter egg hunting.</li>
-        <li><b>For late payments, please prepare a screenshot of your GCash transaction receipt.</b></li>
+        <li><b>For late payments, please prepare a screenshot of your GCash transaction receipt if you have sent it online (this will be checked during check-in), or prepare the full payment in cash if you prefer on-site.</b></li>
       </ul>
       </p>
       <p>If you have further questions, don't hesitate to contact us through our facebook page: <a
