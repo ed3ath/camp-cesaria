@@ -67,7 +67,7 @@ export class DBService {
   }
 
   async getById(table: string, id: number) {
-    const rows = (await this.getRef(table).get()).val() || []
+    const rows = await this.getAll(table)
     return rows.find((i: any) => i.id === id)
   }
 }

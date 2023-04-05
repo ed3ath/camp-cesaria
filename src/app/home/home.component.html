@@ -1,5 +1,31 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <mat-tab label="Registrations">
+    <mat-grid-list cols="3" rowHeight="100px" style="margin-top: 1.25rem !important;">
+      <mat-grid-tile>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Registered Adults</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="text-align: end;">{{ getAdultCount() }}</mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Registered Kids</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="text-align: end;">{{ getKidCount() }}</mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Total Registration Fee</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="text-align: end;">{{ getTotalRegFee() }}</mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
     <mat-card>
       <mat-card-actions [align]="'end'">
         <button type="button" mat-raised-button (click)="fileInput.click()">
@@ -12,8 +38,18 @@
           type="file"
           id="file"
         />
-        <button mat-button mat-raised-button color="primary" (click)="import()" [disabled]="!enableBtn">Import</button>
-        <button mat-button mat-raised-button color="accent" (click)="add()">Add</button>
+        <button
+          mat-button
+          mat-raised-button
+          color="primary"
+          (click)="import()"
+          [disabled]="!enableBtn"
+        >
+          Import
+        </button>
+        <button mat-button mat-raised-button color="accent" (click)="add()">
+          Add
+        </button>
       </mat-card-actions>
       <mat-card-content>
         <div class="mat-elevation-z8">
@@ -28,7 +64,8 @@
               <td
                 mat-cell
                 *matCellDef="let element"
-                [innerHTML]="displaySplit(element.adults)"></td>
+                [innerHTML]="displaySplit(element.adults)"
+              ></td>
             </ng-container>
 
             <ng-container matColumnDef="kids">
@@ -71,7 +108,7 @@
             </ng-container>
 
             <ng-container matColumnDef="markPaid">
-              <th mat-header-cell *matHeaderCellDef>Mark Paid</th>
+              <th mat-header-cell *matHeaderCellDef>Mark Paid/Unpaid</th>
               <td mat-cell *matCellDef="let element">
                 <button
                   mat-mini-fab
@@ -80,6 +117,14 @@
                   *ngIf="!element.paid"
                 >
                   <mat-icon svgIcon="check-icon"></mat-icon>
+                </button>
+                <button
+                  mat-mini-fab
+                  color="danger"
+                  (click)="markUnpaid(element.id)"
+                  *ngIf="element.paid"
+                >
+                  <mat-icon svgIcon="close-icon"></mat-icon>
                 </button>
               </td>
             </ng-container>

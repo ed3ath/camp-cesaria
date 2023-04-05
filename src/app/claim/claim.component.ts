@@ -46,7 +46,7 @@ export class ClaimComponent implements OnInit {
       this.showLoader = true
       const regInfo = JSON.parse(result)
       this.dbService.getById('registrations', regInfo.id).then((res: any) => {
-        if (res.data.length > 0) {
+        if (res) {
           this.dbService.checkIfClaimed(regInfo.id, regInfo.kidIndex, this.selectedIndex).then(async (claimed) => {
             if (!claimed) {
               this.dbService.getNextId('logs').then(nextId => {

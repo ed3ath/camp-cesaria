@@ -138,6 +138,12 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  markUnpaid(id: number) {
+    this.dbService.update('registrations', id, { ...this.registrations.find((i: IRegistration) => i.id === id), paid: false }).then(() => {
+      this.loadRegistrations()
+    })
+  }
+
   add() {
     Swal.fire({
       title: 'Add walk-in',
@@ -245,14 +251,15 @@ export class HomeComponent implements OnInit {
   }
 
   delRow(id: number) {
-    this.dbService.delete('registrations', id).then(() => {
+    this.dbService.getById('registrations', id).then(console.log)
+    /*this.dbService.delete('registrations', id).then(() => {
       Swal.fire(
         '',
         'Row deleted successfully',
         'success'
       )
       this.loadRegistrations()
-    })
+    })*/
   }
 
   csvJSON(csv: any) {
@@ -272,6 +279,23 @@ export class HomeComponent implements OnInit {
       result.push(obj);
     }
     return result;
+  }
+
+  getAdultCount() {
+    return this.registrations.reduce((a: any, b: any) => a + b.adults.length, 0)
+  }
+
+  getKidCount() {
+    return this.registrations.reduce((a: any, b: any) => a + b.kids.length, 0)
+  }
+
+  getTotalRegFee() {
+    const adultCount = this.getAdultCount()
+    const kidCount = this.getKidCount()
+    return ((adultCount * 100) + (kidCount * 500)).toLocaleString('en-US', {
+      currency: 'PHP',
+      style: 'currency'
+    });
   }
 
 }
