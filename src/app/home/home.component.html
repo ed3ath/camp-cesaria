@@ -1,31 +1,79 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <mat-tab label="Registrations">
-    <mat-grid-list cols="3" rowHeight="100px" style="margin-top: 1.25rem !important;">
-      <mat-grid-tile>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Registered Adults</mat-card-title>
-          </mat-card-header>
-          <mat-card-content style="text-align: end;">{{ getAdultCount() }}</mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Registered Kids</mat-card-title>
-          </mat-card-header>
-          <mat-card-content style="text-align: end;">{{ getKidCount() }}</mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Total Registration Fee</mat-card-title>
-          </mat-card-header>
-          <mat-card-content style="text-align: end;">{{ getTotalRegFee() }}</mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <div class="flex flex-wrap my-3">
+      <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap">
+              <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                <h5 class="text-blueGray-400 uppercase font-bold text-xs">
+                  Registered Adults
+                </h5>
+                <span class="font-semibold text-xl text-blueGray-700"
+                  >{{ getAdultCount(registrations) }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap">
+              <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                <h5 class="text-blueGray-400 uppercase font-bold text-xs">
+                  Registered Kids
+                </h5>
+                <span class="font-semibold text-xl text-blueGray-700"
+                  >{{ getKidCount(registrations) }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap">
+              <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                <h5 class="text-blueGray-400 uppercase font-bold text-xs">
+                  Total Registration Fee
+                </h5>
+                <span class="font-semibold text-xl text-blueGray-700"
+                  >{{ getTotalRegFee() }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap">
+              <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                <h5 class="text-blueGray-400 uppercase font-bold text-xs">
+                  Unpaid Registration Fee
+                </h5>
+                <span class="font-semibold text-xl text-blueGray-700"
+                  >{{ getTotalUnpaidRegFee() }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <mat-card>
       <mat-card-actions [align]="'end'">
         <button type="button" mat-raised-button (click)="fileInput.click()">

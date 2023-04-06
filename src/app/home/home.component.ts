@@ -282,17 +282,26 @@ export class HomeComponent implements OnInit {
     return result;
   }
 
-  getAdultCount() {
-    return this.registrations.reduce((a: any, b: any) => a + b.adults.length, 0)
+  getAdultCount(reg: any) {
+    return reg.reduce((a: any, b: any) => a + b.adults.length, 0)
   }
 
-  getKidCount() {
-    return this.registrations.reduce((a: any, b: any) => a + b.kids.length, 0)
+  getKidCount(reg: any) {
+    return reg.reduce((a: any, b: any) => a + b.kids.length, 0)
   }
 
   getTotalRegFee() {
-    const adultCount = this.getAdultCount()
-    const kidCount = this.getKidCount()
+    const adultCount = this.getAdultCount(this.registrations)
+    const kidCount = this.getKidCount(this.registrations)
+    return ((adultCount * 100) + (kidCount * 500)).toLocaleString('en-US', {
+      currency: 'PHP',
+      style: 'currency'
+    });
+  }
+
+  getTotalUnpaidRegFee() {
+    const adultCount = this.getAdultCount(this.registrations.filter((i: any) => !i.paid))
+    const kidCount = this.getKidCount(this.registrations.filter((i: any) => !i.paid))
     return ((adultCount * 100) + (kidCount * 500)).toLocaleString('en-US', {
       currency: 'PHP',
       style: 'currency'
