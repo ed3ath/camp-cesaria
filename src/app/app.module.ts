@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { CheckinComponent } from './checkin/checkin.component';
 import { ClaimComponent } from './claim/claim.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
+import { LandingComponent } from './landing/landing.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { QrcodeComponent } from './qrcode/qrcode.component';
     CheckinComponent,
     ClaimComponent,
     QrcodeComponent,
+    LandingComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
