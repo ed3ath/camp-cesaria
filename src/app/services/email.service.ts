@@ -22,6 +22,7 @@ export class EmailService {
         <li>Every adult has to pay P100 for the entrance, inclusive of pool access only.</li>
         <li>Please bring a floater or life vest for kids if you have any.</li>
         <li>Adults are <b>NOT</b> allowed to pick up Easter eggs during the Easter egg hunt.</li>
+        <li>We only have a limited supply of baskets. Please bring your own if you have any.</li>
         <li><b>For late payments, please prepare a screenshot of your GCash transaction receipt if you have sent it online (this will be checked during check-in), or prepare the full payment in cash if you prefer on-site.</b></li>
       </ul>
       </p>
