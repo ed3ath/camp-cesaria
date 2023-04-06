@@ -14,7 +14,7 @@ export class EmailService {
       <p>Please download and save your {{var2}} QR {{qr}} to your phone, which is found at the bottom of this email. These should be presented at the entrance and food kiosks.</p>
       <p>Please note:</p>
       <p>
-      <ul>
+      <ul style="all: revert;">
         <li>Check-in and walk-in registration will start at 1 p.m.</li>
         <li>P500 registration fee is inclusive of entrance to Camp Cesaria, Taters Popcorn, Egg Sandwich by K-Egg Kidapawan,
           pool access, entrance to the rabbit cove, face painting, bubble show, balloon twisting, easter egg hunting, and
