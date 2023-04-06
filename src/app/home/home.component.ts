@@ -88,12 +88,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.eventService.subscribe('db_connected', () => {
-      this.dbService.getRef('registrations').observe().subscribe(() => {
-        this.loadRegistrations()
-      })
-      this.dbService.getRef('logs').observe().subscribe(() => {
-        this.loadLogs()
-      })
+      setTimeout(() => {
+        this.dbService.getRef('registrations').observe().subscribe(() => {
+          this.loadRegistrations()
+        })
+        this.dbService.getRef('logs').observe().subscribe(() => {
+          this.loadLogs()
+        })
+      }, 3000)
     })
   }
 
