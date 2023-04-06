@@ -301,6 +301,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  getTotalPaidRegFee() {
+    const adultCount = this.getAdultCount(this.registrations.filter((i: any) => i.paid))
+    const kidCount = this.getKidCount(this.registrations.filter((i: any) => i.paid))
+    return ((adultCount * 100) + (kidCount * 500)).toLocaleString('en-US', {
+      currency: 'PHP',
+      style: 'currency'
+    });
+  }
+
   getTotalUnpaidRegFee() {
     const adultCount = this.getAdultCount(this.registrations.filter((i: any) => !i.paid))
     const kidCount = this.getKidCount(this.registrations.filter((i: any) => !i.paid))
