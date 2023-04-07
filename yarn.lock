@@ -2044,6 +2044,13 @@ acebase-client@^1.20.0:
     acebase-core "^1.25.0"
     socket.io-client "^2.5.0"
 
+acebase-core@^1.17.0:
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/acebase-core/-/acebase-core-1.26.0.tgz#e4d134f634a6295fc7562ee765d8ac3f9e38f5d8"
+  integrity sha512-u7cyudMd8dCI9whKCNjxxvphwIAJfE9+6+0Omcjv6IS/lxaOzShlyuPPp0BpvsvsVt0B6UxoGL729l4x2VFXFQ==
+  optionalDependencies:
+    rxjs ">= 5.x <= 7.x"
+
 acebase-core@^1.25.0:
   version "1.25.1"
   resolved "https://registry.yarnpkg.com/acebase-core/-/acebase-core-1.25.1.tgz#f2de25a330acdf35a183632d69e765894fa02d51"
@@ -2062,6 +2069,14 @@ acebase-server@^1.16.2:
     socket.io "^4.5.0"
     swagger-jsdoc "^6.1.0"
     swagger-ui-express "^4.3.0"
+
+acebase@1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/acebase/-/acebase-1.20.0.tgz#ca2c420ffb4d98114d51f7d9d38a0683e52cf6c9"
+  integrity sha512-gbGAa/Po6wlMvGD38J4W6vWYcJxvF4Ok+TaM/rcgFu4wPoxBUi+WgNA1OLpAGv5AzMmAV/bAmfoGldy/ed/QTQ==
+  dependencies:
+    acebase-core "^1.17.0"
+    unidecode "^0.1.8"
 
 acebase@^1.27.0:
   version "1.27.0"
@@ -2350,19 +2365,7 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-autoprefixer@^10.4.14:
-  version "10.4.14"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.14.tgz#e28d49902f8e759dd25b153264e862df2705f79d"
-  integrity sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==
-  dependencies:
-    browserslist "^4.21.5"
-    caniuse-lite "^1.0.30001464"
-    fraction.js "^4.2.0"
-    normalize-range "^0.1.2"
-    picocolors "^1.0.0"
-    postcss-value-parser "^4.2.0"
-
-autoprefixer@^10.4.2:
+autoprefixer@^10.4.14, autoprefixer@^10.4.2:
   version "10.4.14"
   resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.14.tgz"
   integrity sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==
@@ -6594,18 +6597,9 @@ postcss@8.4.5:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
-postcss@^8.0.9, postcss@^8.2.14, postcss@^8.2.15, postcss@^8.3.7:
+postcss@^8.0.9, postcss@^8.2.14, postcss@^8.2.15, postcss@^8.3.7, postcss@^8.4.21:
   version "8.4.21"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.21.tgz"
-  integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
-  dependencies:
-    nanoid "^3.3.4"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
-
-postcss@^8.4.21:
-  version "8.4.21"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.21.tgz#c639b719a57efc3187b13a1d765675485f4134f4"
   integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
   dependencies:
     nanoid "^3.3.4"

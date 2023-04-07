@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
 import { DBService } from 'src/app/services/db.service';
-import { EventService } from 'src/app/services/event.service';
+import { Db2Service } from '../services/db2.service';
 
 import { IRegistration } from 'src/app/interfaces/db.interface';
 
@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public dbService: DBService,
-    private eventService: EventService,
+    public db2Service: Db2Service,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     public dialog: MatDialog
@@ -87,16 +87,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventService.subscribe('db_connected', () => {
-      setTimeout(() => {
-        this.dbService.getRef('registrations').observe().subscribe(() => {
-          this.loadRegistrations()
-        })
-        this.dbService.getRef('logs').observe().subscribe(() => {
-          this.loadLogs()
-        })
-      }, 3000)
-    })
+    this.dbService.aceBase.ready(() => {
+      this.dbService.getRef('registrations').observe().subscribe(() => {
+        this.loadRegistrations()
+      })
+      this.db2Service.getRef('logs').observe().subscribe(() => {
+        this.loadLogs()
+      })
+    });
   }
 
   loadRegistrations() {
@@ -106,7 +104,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadLogs() {
-    this.dbService.getAll('logs').then(res => {
+    this.db2Service.getAll('logs').then(res => {
       this.logs = res?.sort((a: any, b: any) => b.id - a.id)
     })
   }

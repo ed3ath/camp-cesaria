@@ -1,27 +1,16 @@
-import { Injectable } from '@angular/core'
-import {
-  AceBaseClient
-} from 'acebase-client'
-import { environment } from 'src/environments/environment'
+import { Injectable } from '@angular/core';
+import { AceBase } from 'acebase'
 
 import { IRegistration, ILog } from 'src/app/interfaces/db.interface'
 
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-
-export class DBService {
-  public aceBase: AceBaseClient
+export class Db2Service {
+  public aceBase: AceBase
 
   constructor() {
-    const host = process.env['DB_HOST'] || 'localhost';
-    const port = process.env['DB_PORT'] || 5757
-    this.aceBase = new AceBaseClient({ host, port: +port, dbname: 'camp_cesaria', https: environment.production ? true : false })
-  }
-
-  getQuery(table: string) {
-    return this.aceBase.query(table)
+    this.aceBase = AceBase.WithIndexedDB('camp_cesaria');
   }
 
   getRef(table: string) {
@@ -29,11 +18,11 @@ export class DBService {
   }
 
   async getNextId(table: string) {
-    return (await this.getQuery(table).count()) + 1
+    return (await this.getRef(table).count()) + 1
   }
 
   async getAll(table: string) {
-    return (await this.getQuery(table).get()).getValues()
+    return (await this.getRef(table).get()).val()
   }
 
   async insert(table: string, data: IRegistration | ILog) {

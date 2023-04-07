@@ -25,6 +25,7 @@
     "@zxing/browser": "^0.1.1",
     "@zxing/library": "^0.19.1",
     "@zxing/ngx-scanner": "3.5",
+    "acebase": "1.20.0",
     "acebase-client": "^1.20.0",
     "acebase-server": "^1.16.2",
     "angularx-qrcode": "13.0.15",
