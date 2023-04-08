@@ -99,13 +99,17 @@ export class HomeComponent implements OnInit {
 
   loadRegistrations() {
     this.dbService.getAll('registrations').then(res => {
-      this.registrations = res?.sort((a: any, b: any) => b.id - a.id)
+      if (res) {
+        this.registrations = res.sort((a: any, b: any) => b.id - a.id)
+      }
     })
   }
 
   loadLogs() {
     this.db2Service.getAll('logs').then(res => {
-      this.logs = res?.sort((a: any, b: any) => b.id - a.id)
+      if (res) {
+        this.logs = res.sort((a: any, b: any) => b.id - a.id)
+      }
     })
   }
 
